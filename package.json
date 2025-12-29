@@ -1,0 +1,23 @@
+{
+  "name": "ts-enum",
+  "version": "1.0.0",
+  "author": {
+    "name": "Cas Argilla",
+    "email": "castral01@gmail.com"
+  },
+  "license": "MIT",
+  "repository": {},
+  "scripts": {
+    "build": "tsc",
+    "test": "vitest run"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "devDependencies": {
+    "typescript": "^5.9.3",
+    "vite": "^7.3.0",
+    "vitest": "^4.0.16"
+  },
+  "packageManager": "yarn@4.9.2"
+}
