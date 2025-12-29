@@ -237,7 +237,7 @@ export namespace Enum {
     e: E,
     s: string,
   ): Value<E> | undefined {
-    const k = keys(e).find((v) => e[v].toLowerCase() === s.toLowerCase());
+    const k = keys(e).find((v) => v.toLowerCase() === s.toLowerCase());
     return k === undefined ? undefined : e[k];
   }
 }

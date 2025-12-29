@@ -8,7 +8,7 @@
   "license": "MIT",
   "description": "A utility library for working with TypeScript enum-like objects.",
   "keywords": [
-    "typescript", "typescript-enum", "enum", "utility", "native", "typesafe","type-safe", "union", "literal"
+    "typescript", "typescript-enum", "enum", "util", "utility", "native", "typesafe","type-safe", "union", "reflection", "literal"
   ],
   "homepage": "https://github.com/castral/ts-enum",
   "repository": {
