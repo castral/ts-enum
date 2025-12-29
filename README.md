@@ -1,9 +1,9 @@
-# @castral/ts-enum
+# ts-enum
 
 > Type-safe TypeScript enum utilities with perfect type inference and zero dependencies
 
-[![npm version](https://img.shields.io/npm/v/@castral/ts-enum.svg)](https://www.npmjs.com/package/@castral/ts-enum)
-[![Bundle Size](https://img.shields.io/bundlephobia/minzip/@castral/ts-enum)](https://bundlephobia.com/package/@castral/ts-enum)
+[![npm version](https://img.shields.io/npm/v/ts-enum.svg)](https://www.npmjs.com/package/ts-enum)
+[![Bundle Size](https://img.shields.io/bundlephobia/minzip/ts-enum)](https://bundlephobia.com/package/ts-enum)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
@@ -125,6 +125,27 @@ const entries = Enum.entries(Status);
 // Value: [["Idle", 0], ["Running", 1]]
 ```
 
+### `Enum.isKey<E>(enum, key)`
+
+Type guard that narrows to exact enum keys.
+
+```typescript
+enum Status { Idle = 0, Running = 1 }
+
+function parse(key: unknown) {
+  if (Enum.isKey(Status, key)) {
+    const val = Status[key];
+    console.log(`Status is ${key}: ${val}`);
+  }
+}
+
+// Must exactly match enum key
+const invalid = 'idle';
+if (Enum.isKey(Status, invalid)) {
+  // Type: never - this will never execute!
+}
+```
+
 ### `Enum.isValue<E>(enum, value)`
 
 Type guard that narrows to exact enum values.
@@ -142,21 +163,35 @@ function process(value: unknown) {
   }
 }
 
-// TypeScript proves unreachable code
 const invalid = 99;
 if (Enum.isValue(Status, invalid)) {
   // Type: never - this will never execute!
 }
 ```
 
-### `Enum.createIsGuard<E>(enum)`
+### `Enum.createIsKeyGuard<E>(enum)`
 
-Creates a reusable type guard with cached values (O(1) lookup).
+Creates a reusable key type guard with cached keys (O(1) lookup).
 
 ```typescript
 enum Status { Idle = 0, Running = 1 }
 
-const isStatus = Enum.createIsGuard(Status);
+const isStatus = Enum.createIsKeyGuard(Status);
+
+// Use in hot paths for better performance
+if (isStatus(key)) {
+  // key is narrowed to Status
+}
+```
+
+### `Enum.createIsValueGuard<E>(enum)`
+
+Creates a reusable value type guard with cached values (O(1) lookup).
+
+```typescript
+enum Status { Idle = 0, Running = 1 }
+
+const isStatus = Enum.createIsValueGuard(Status);
 
 // Use in hot paths for better performance
 if (isStatus(value)) {
@@ -202,26 +237,26 @@ const key = Enum.keyOfStrict(Status, 1);
 // Throws if value is not 0 or 1
 ```
 
-### `Enum.toString<E>(enum, value)`
+### `Enum.keyOfValueToString<E>(enum, value)`
 
 Convert enum value to string key.
 
 ```typescript
 enum Status { Idle = 0, Running = 1 }
 
-const str = Enum.toString(Status, Status.Idle);
+const str = Enum.keyOfValueToString(Status, Status.Idle);
 // Type: string | undefined
 // Value: "Idle"
 ```
 
-### `Enum.fromString<E>(enum, string)`
+### `Enum.valueFromKeyString<E>(enum, string)`
 
 Parse string to enum value (case-insensitive).
 
 ```typescript
 enum Status { Idle = 0, Running = 1 }
 
-const value = Enum.fromString(Status, 'idle');
+const value = Enum.valueFromKeyString(Status, 'idle');
 // Type: Status | undefined
 // Value: 0
 ```
@@ -230,7 +265,7 @@ const value = Enum.fromString(Status, 'idle');
 
 ### Exact Member Narrowing
 
-Unlike other libraries, `@castral/ts-enum` narrows to **exact enum members**, not just the union type.
+Unlike other libraries, `ts-enum` narrows to **exact enum members**, not just the union type.
 
 ```typescript
 enum Color { Red = 'red', Blue = 'blue' }
@@ -322,7 +357,7 @@ enum HttpStatus {
   NotFound = 404
 }
 
-const isHttpStatus = Enum.createIsGuard(HttpStatus);
+const isHttpStatus = Enum.createIsValueGuard(HttpStatus);
 
 function handleResponse(status: number) {
   if (isHttpStatus(status)) {

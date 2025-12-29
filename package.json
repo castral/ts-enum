@@ -1,12 +1,20 @@
 {
-  "name": "ts-enum",
+  "name": "@castral/ts-enum",
   "version": "1.0.0",
   "author": {
     "name": "Cas Argilla",
     "email": "castral01@gmail.com"
   },
   "license": "MIT",
-  "repository": {},
+  "description": "A utility library for working with TypeScript enum-like objects.",
+  "keywords": [
+    "typescript", "typescript-enum", "enum", "utility", "native", "typesafe","type-safe", "union", "literal"
+  ],
+  "homepage": "https://github.com/castral/ts-enum",
+  "repository": {
+    "type": "git",
+    "url": "github:castral/ts-enum"
+  },
   "scripts": {
     "build": "tsc",
     "test": "vitest run"
