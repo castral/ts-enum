@@ -536,48 +536,48 @@ describe('ts-enum', () => {
 
   describe('valueFromKeyString()', () => {
     it('should find value from key string in numeric enum (case-insensitive)', () => {
-      expect(Enum.valueFromKeyString(NumericEnum, 'First')).toBe(0);
-      expect(Enum.valueFromKeyString(NumericEnum, 'first')).toBe(0);
-      expect(Enum.valueFromKeyString(NumericEnum, 'FIRST')).toBe(0);
-      expect(Enum.valueFromKeyString(NumericEnum, 'Second')).toBe(1);
+      expect(Enum.valueOfKeyFromString(NumericEnum, 'First')).toBe(0);
+      expect(Enum.valueOfKeyFromString(NumericEnum, 'first')).toBe(0);
+      expect(Enum.valueOfKeyFromString(NumericEnum, 'FIRST')).toBe(0);
+      expect(Enum.valueOfKeyFromString(NumericEnum, 'Second')).toBe(1);
     });
 
     it('should return undefined for non-existent key string', () => {
-      expect(Enum.valueFromKeyString(NumericEnum, 'Invalid')).toBeUndefined();
-      expect(Enum.valueFromKeyString(NumericEnum, '0')).toBeUndefined();
+      expect(Enum.valueOfKeyFromString(NumericEnum, 'Invalid')).toBeUndefined();
+      expect(Enum.valueOfKeyFromString(NumericEnum, '0')).toBeUndefined();
     });
 
     it('should find value from key string in string enum (case-insensitive)', () => {
-      expect(Enum.valueFromKeyString(StringEnum, 'First')).toBe('FIRST');
-      expect(Enum.valueFromKeyString(StringEnum, 'first')).toBe('FIRST');
-      expect(Enum.valueFromKeyString(StringEnum, 'SECOND')).toBe('SECOND');
+      expect(Enum.valueOfKeyFromString(StringEnum, 'First')).toBe('FIRST');
+      expect(Enum.valueOfKeyFromString(StringEnum, 'first')).toBe('FIRST');
+      expect(Enum.valueOfKeyFromString(StringEnum, 'SECOND')).toBe('SECOND');
     });
 
     it('should find value from key string in mixed enum (case-insensitive)', () => {
-      expect(Enum.valueFromKeyString(MixedEnum, 'Negative')).toBe(-1);
-      expect(Enum.valueFromKeyString(MixedEnum, 'negative')).toBe(-1);
-      expect(Enum.valueFromKeyString(MixedEnum, 'StringValue')).toBe('STRING');
-      expect(Enum.valueFromKeyString(MixedEnum, 'numericstring')).toBe('999');
+      expect(Enum.valueOfKeyFromString(MixedEnum, 'Negative')).toBe(-1);
+      expect(Enum.valueOfKeyFromString(MixedEnum, 'negative')).toBe(-1);
+      expect(Enum.valueOfKeyFromString(MixedEnum, 'StringValue')).toBe('STRING');
+      expect(Enum.valueOfKeyFromString(MixedEnum, 'numericstring')).toBe('999');
     });
 
     it('should find value for negative numeric values', () => {
-      expect(Enum.valueFromKeyString(NumericEnumNegative, 'NegOne')).toBe(-1);
-      expect(Enum.valueFromKeyString(NumericEnumNegative, 'negone')).toBe(-1);
+      expect(Enum.valueOfKeyFromString(NumericEnumNegative, 'NegOne')).toBe(-1);
+      expect(Enum.valueOfKeyFromString(NumericEnumNegative, 'negone')).toBe(-1);
     });
 
     it('should find value for numeric string values', () => {
-      expect(Enum.valueFromKeyString(StringEnumNumericValues, 'First')).toBe('123');
-      expect(Enum.valueFromKeyString(StringEnumNumericValues, 'SECOND')).toBe('456');
+      expect(Enum.valueOfKeyFromString(StringEnumNumericValues, 'First')).toBe('123');
+      expect(Enum.valueOfKeyFromString(StringEnumNumericValues, 'SECOND')).toBe('456');
     });
 
     it('should work for enum where values match key names', () => {
-      expect(Enum.valueFromKeyString(SameAsKeyEnum, 'First')).toBe('First');
-      expect(Enum.valueFromKeyString(SameAsKeyEnum, 'first')).toBe('First');
+      expect(Enum.valueOfKeyFromString(SameAsKeyEnum, 'First')).toBe('First');
+      expect(Enum.valueOfKeyFromString(SameAsKeyEnum, 'first')).toBe('First');
     });
 
     it('should work for enum with duplicate values', () => {
-      expect(Enum.valueFromKeyString(DuplicateValuesEnum, 'First')).toBe('DUPLICATE');
-      expect(Enum.valueFromKeyString(DuplicateValuesEnum, 'Second')).toBe('DUPLICATE');
+      expect(Enum.valueOfKeyFromString(DuplicateValuesEnum, 'First')).toBe('DUPLICATE');
+      expect(Enum.valueOfKeyFromString(DuplicateValuesEnum, 'Second')).toBe('DUPLICATE');
     });
   });
 });

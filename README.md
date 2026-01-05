@@ -39,7 +39,7 @@ if (Enum.isValue(Status, invalid)) {
 - 🔍 **Exact Member Narrowing** - Type guards narrow to specific enum members, not just unions
 - ⚡ **Zero Dependencies** - No external packages, just pure TypeScript
 - 📦 **Tiny Bundle** - ~1KB minified, tree-shakeable
-- 🛡️ **Type-Safe** - No type assertions (`as`) anywhere in the implementation
+- 🛡️ **Type-Safe** - Works with single Enums as well as unions of Enums, ie: `typeof FirstEnum | typeof SecondEnum`
 - ✅ **Compile-Time Proof** - TypeScript mathematically proves correctness
 - 🔧 **Works Everywhere** - Numeric enums, string enums, and mixed enums
 
@@ -249,7 +249,29 @@ const str = Enum.keyOfValueToString(Status, Status.Idle);
 // Value: "Idle"
 ```
 
-### `Enum.valueFromKeyString<E>(enum, string)`
+### `Enum.valueOfKey<E>(enum, Key<E>)`
+
+```typescript
+enum Status { Idle = 0, Running = 1 }
+
+const value = Enum.valueOfKey(Status, Enum.keys(Status)[1] ?? 'Idle');
+// Type: Status
+// Value: 1
+```
+
+### `Enum.get<E>(enum, key: unknown)`
+
+```typescript
+enum Status { Idle = 0, Running = 1 }
+
+const currentStatus: string | undefined = 'Running';
+
+const value = Enum.get(Status, currentStatus);
+// Type: Status | undefined
+// Value: 1
+```
+
+### `Enum.valueOfKeyFromString<E>(enum, string)`
 
 Parse string to enum value (case-insensitive).
 
@@ -332,6 +354,51 @@ Enum.values(Status)     // Status[] (= (0 | 1)[])
 ```
 
 ## Use Cases
+
+### Compile-Time Configuration
+
+```typescript
+enum AgentPaths {
+  dashboard = 'Agent Dashboard',
+}
+
+enum StreamPaths {
+  overview = 'Stream Overview',
+}
+
+const Outlets = {
+  agent: AgentPaths,
+  stream: StreamPaths,
+} as const;
+
+interface Route<T extends keyof typeof Outlets> {
+  component: any;
+  outlet: T;
+  path: Enum.Key<Enum.EnumLike<(typeof Outlets)[T]>>;
+}
+
+const ROUTES: (Route<'agent'> | Route<'stream'>)[] = [
+  {
+    component: AgentDashboard,
+    outlet: 'agent',
+    // Type is typeof AgentPaths
+    path: 'dashboard', // Can't be 'overview'
+  },
+  {
+    component: StreamOverview,
+    outlet: 'stream',
+    // Type is typeof StreamPaths
+    path: 'overview', // Can't be 'dashboard'
+  },
+] as const;
+
+const currentPath = 'dashboard';
+Object.keys(Outlets).forEach((outlet) => {
+  // Type is: typeof AgentPaths | typeof StreamPaths
+  const titleEnum = Outlets[outlet as keyof typeof Outlets]; 
+  const pageTitle = Enum.get(titleEnum, currentPath) ?? 'Unknown Page';
+})
+```
 
 ### Form Select Options
 

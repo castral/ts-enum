@@ -50,7 +50,7 @@ export namespace Enum {
    *
    * @template E Represents the enum-like structure from which the keys will be extracted. This type must extend `EnumLike<E>`, where `EnumLike` is typically a constraint for objects that resemble enums.
    */
-  export type Key<E extends EnumLike<E>> = keyof E & string;
+  export type Key<E extends EnumLike<E>> = E extends any ? keyof E & string : never;
 
   /**
    * Represents a type that maps to a specific value within an enumeration-like structure.
@@ -60,7 +60,7 @@ export namespace Enum {
    * The `Value` type takes an `EnumLike` type `E` and resolves to the type of the values corresponding to the keys of `E`.
    * It is commonly used to extract the value types from a type object that conforms to an enum-like structure.
    */
-  export type Value<E extends EnumLike<E>> = E[Key<E>];
+  export type Value<E extends EnumLike<E>> = E extends any ? E[Key<E>] : never;
 
   /**
    * Determines if the provided value is a number or a string that can be converted to a number.
@@ -81,8 +81,8 @@ export namespace Enum {
    * @param k - The key to verify against the enum-like object.
    * @return A boolean indicating whether the provided key exists within the enum-like object.
    */
-  function isEnumKey<E extends EnumLike<E>>(e: E, k: any): k is keyof E {
-    return k in e;
+  export function isEnumKey<E extends EnumLike<E>>(e: E, k: any): k is Key<E> {
+    return !isEnumNumber(k) && k in e;
   }
 
   /**
@@ -95,7 +95,7 @@ export namespace Enum {
     const keys: Key<E>[] = [];
     // NOTE: .filter() and .map() don't work here
     for (const k of Object.keys(e)) {
-      if (!isEnumNumber(k) && isEnumKey(e, k)) {
+      if (isEnumKey(e, k)) {
         keys.push(k);
       }
     }
@@ -109,7 +109,7 @@ export namespace Enum {
    * @returns An array containing all the values of the provided enum-like object.
    */
   export function values<E extends EnumLike<E>>(e: E): Value<E>[] {
-    return keys(e).map((k) => e[k]);
+    return keys(e).map((k) => e[k] as Value<E>);
   }
 
   /**
@@ -119,7 +119,7 @@ export namespace Enum {
    * @return {[Key<E>, Value<E>][]} An array of tuples, where each tuple consists of a key and its corresponding value from the enum-like object.
    */
   export function entries<E extends EnumLike<E>>(e: E): [Key<E>, Value<E>][] {
-    return keys(e).map((k) => [k, e[k]]);
+    return keys(e).map((k) => [k, e[k] as Value<E>]);
   }
 
   /**
@@ -227,17 +227,40 @@ export namespace Enum {
   }
 
   /**
+   * Retrieves the value corresponding to the given key from an enum-like object.
+   * If the key is not a valid enum key, it returns undefined.
+   *
+   * @param {E} e - The enum-like object to retrieve the value from.
+   * @param {unknown} k - The key to look up in the enum-like object.
+   * @return {Value<E> | undefined} The value associated with the key if it exists, otherwise undefined.
+   */
+  export function get<E extends EnumLike<E>>(e: E, k: unknown): Value<E> | undefined {
+    return (isEnumKey(e, k)) ? e[k] as Value<E> : undefined;
+  }
+
+  /**
+   * Retrieves the value associated with the specified key from the given enum-like object.
+   *
+   * @param {E} e - The enum-like object from which the value is to be retrieved.
+   * @param {Key<E>} k - The key whose associated value is to be retrieved.
+   * @return {Value<E>} The value associated with the specified key.
+   */
+  export function valueOfKey<E extends EnumLike<E>>(e: E, k: Key<E>): Value<E> {
+    return e[k] as Value<E>;
+  }
+
+  /**
    * Converts a string to a corresponding enumeration value if a matching key exists. Case-insensitive.
    *
    * @param e The enumeration object containing enum members.
    * @param s The string to be matched with one of the enumeration members.
    * @return The corresponding enumeration value if a match is found; otherwise, returns undefined.
    */
-  export function valueFromKeyString<E extends EnumLike<E>>(
+  export function valueOfKeyFromString<E extends EnumLike<E>>(
     e: E,
     s: string,
   ): Value<E> | undefined {
     const k = keys(e).find((k) => k.toLowerCase() === s.toLowerCase());
-    return k === undefined ? undefined : e[k];
+    return k === undefined ? undefined : e[k] as Value<E>;
   }
 }
