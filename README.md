@@ -2,8 +2,8 @@
 
 > Type-safe TypeScript enum utilities with perfect type inference and zero dependencies
 
-[![npm version](https://img.shields.io/npm/v/ts-enum.svg)](https://www.npmjs.com/package/ts-enum)
-[![Bundle Size](https://img.shields.io/bundlephobia/minzip/ts-enum)](https://bundlephobia.com/package/ts-enum)
+[![npm version](https://img.shields.io/npm/v/@castral/ts-enum.svg)](https://www.npmjs.com/package/ts-enum)
+[![Bundle Size](https://img.shields.io/bundlephobia/minzip/@castral/ts-enum@1.0.0)](https://bundlephobia.com/package/@castral/ts-enum@1.0.0)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0+-blue.svg)](https://www.typescriptlang.org/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
