@@ -21,9 +21,9 @@ const keys = Enum.keys(Status);      // ("Idle" | "Running" | "Complete")[]
 const values = Enum.values(Status);  // Status[] (= (0 | 1 | 2)[])
 
 // ✅ Literal types preserved through type guards
-const value = 'Running';
+const value = 1;
 if (Enum.isValue(Status, value)) {
-  // value is narrowed to Status (not just string!)
+  // value is narrowed to Status.Running
 }
 
 // ✅ TypeScript proves unreachable code
