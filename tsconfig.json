@@ -5,15 +5,17 @@
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "declaration": true,
+    "declarationDir": "dist",
     "declarationMap": true,
+    "emitDeclarationOnly": true,
     "esModuleInterop": true,
-    "exactOptionalPropertyTypes": false,
+    "exactOptionalPropertyTypes": true,
     "forceConsistentCasingInFileNames": true,
     "lib": [
       "ESNext"
     ],
-    "inlineSourceMap": true,
-    "inlineSources": true,
+    "isolatedModules": true,
+    "listEmittedFiles": true,
     "module": "NodeNext",
     "moduleResolution": "nodenext",
     "noFallthroughCasesInSwitch": true,
@@ -25,14 +27,18 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "outDir": "dist",
+    "rootDir": "lib",
+    "sourceMap": true,
+    "sourceRoot": "lib",
     "stripInternal": true,
     "strict": true,
     "target": "ES2024",
     "useUnknownInCatchVariables": true,
     "verbatimModuleSyntax": true
   },
-  "include": ["src"],
+  "include": ["lib"],
   "exclude": [
+    "dist",
     "node_modules",
     "test"
   ]
