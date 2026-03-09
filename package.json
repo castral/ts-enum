@@ -1,6 +1,6 @@
 {
   "name": "@castral/ts-enum",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": {
     "name": "Cas Argilla",
     "email": "castral01@gmail.com"
@@ -29,12 +29,18 @@
     "build": "tsc",
     "test": "vitest run"
   },
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "type": "module",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "files": [
     "dist/index.d.ts",
-    "dist/index.d.ts.map"
+    "dist/index.d.ts.map",
+    "dist/index.js",
+    "dist/index.js.map"
   ],
   "sideEffects": false,
   "devDependencies": {
